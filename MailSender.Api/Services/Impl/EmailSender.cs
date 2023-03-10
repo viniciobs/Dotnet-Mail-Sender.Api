@@ -32,11 +32,11 @@ namespace MailSender.Api.Services.Impl
         public  async Task SendAsync(Email data, CancellationToken cancellationToken)
         {
             await Task.Run(() => {
-                _client.Send(
-                    data.From,
-                    data.To,
-                    data.Subject,
-                    data.Body);
+                _client.SendMailAsync(
+                   new MailMessage(data.From, data.To, data.Subject, data.Body)
+                   {
+                       IsBodyHtml = data.IsHtml
+                   });
             }, cancellationToken);
         }
     }

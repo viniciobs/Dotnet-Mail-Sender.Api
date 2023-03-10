@@ -6,5 +6,6 @@ namespace MailSender.Api.DTOs
         string From,
         string To,
         string Subject,
-        string Body);
+        string Body,
+        bool IsHtml);
 }

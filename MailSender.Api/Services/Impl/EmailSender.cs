@@ -6,6 +6,7 @@ namespace MailSender.Api.Services.Impl
 {
     public sealed class EmailSender : IMailSender
     {
+        private readonly string _fromEmail;
         private readonly SmtpClient _client;
 
         public EmailSender(IConfiguration configuration)
@@ -27,13 +28,15 @@ namespace MailSender.Api.Services.Impl
                     smtpSettings.Password),
                 EnableSsl = true
             };
+
+            _fromEmail = smtpSettings.Username;
         }
 
         public  async Task SendAsync(Email data, CancellationToken cancellationToken)
         {
             await Task.Run(() => {
                 _client.SendMailAsync(
-                   new MailMessage(data.From, data.To, data.Subject, data.Body)
+                   new MailMessage(_fromEmail, data.To, data.Subject, data.Body)
                    {
                        IsBodyHtml = data.IsHtml
                    });

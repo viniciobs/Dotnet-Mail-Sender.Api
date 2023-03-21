@@ -9,10 +9,6 @@ namespace MailSender.Api.Services.Impl
 
         public EmailValidator()
         {
-            RuleFor(x => x.From)
-                .NotEmpty().WithMessage("Sender email address is required")
-                .EmailAddress().WithMessage("Sender email address is not valid");
-
             RuleFor(x => x.To)
                 .NotEmpty().WithMessage("Receiver email address is required")
                 .EmailAddress().WithMessage("Receiver email address is not valid");

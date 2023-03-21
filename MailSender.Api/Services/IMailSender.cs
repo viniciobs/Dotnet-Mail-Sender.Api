@@ -4,6 +4,6 @@ namespace MailSender.Api.Services
 {
     public interface IMailSender
     {
-        Task SendAsync(Email data, CancellationToken cancellationToken);
+        Task<(bool IsSuccess, string? Error)> SendAsync(Email data, CancellationToken cancellationToken);
     }
 }

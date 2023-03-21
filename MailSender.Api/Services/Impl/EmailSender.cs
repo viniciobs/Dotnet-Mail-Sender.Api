@@ -1,4 +1,5 @@
 ﻿using MailSender.Api.DTOs;
+using System.ComponentModel;
 using System.Net;
 using System.Net.Mail;
 
@@ -8,18 +9,10 @@ namespace MailSender.Api.Services.Impl
     {
         private readonly string _fromEmail;
         private readonly SmtpClient _client;
+        private string? error;
 
-        public EmailSender(IConfiguration configuration)
+        public EmailSender(SmtpSettings smtpSettings)
         {
-            var smtpSettings = configuration
-                .GetSection("Smtp")
-                .Get<SmtpSettings>();
-
-            if (smtpSettings is null)
-            {
-                throw new ApplicationException("Missing smtp settings");
-            }
-
             _client = new SmtpClient(smtpSettings.Host, smtpSettings.Port)
             {
                 UseDefaultCredentials = false,
@@ -29,18 +22,33 @@ namespace MailSender.Api.Services.Impl
                 EnableSsl = true
             };
 
+            _client.SendCompleted += new SendCompletedEventHandler(EmailSentCallback);
+
             _fromEmail = smtpSettings.Username;
         }
 
-        public  async Task SendAsync(Email data, CancellationToken cancellationToken)
+        private void EmailSentCallback(object sender, AsyncCompletedEventArgs e)
         {
-            await Task.Run(() => {
-                _client.SendMailAsync(
-                   new MailMessage(_fromEmail, data.To, data.Subject, data.Body)
-                   {
-                       IsBodyHtml = data.IsHtml
-                   });
-            }, cancellationToken);
+            if (e.Cancelled)
+            {
+                error = "Operation cancelled";
+            }
+
+            if (e.Error is not null)
+            {
+                error = e.Error.ToString();
+            }
+        }
+
+        public async Task<(bool IsSuccess, string? Error)> SendAsync(Email data, CancellationToken cancellationToken)
+        {
+            await _client.SendMailAsync(
+                new MailMessage(_fromEmail, data.To, data.Subject, data.Body)
+                {
+                    IsBodyHtml = data.IsHtml
+                }, cancellationToken);
+
+            return (IsSuccess: error is null, Error: error);
         }
     }
 }

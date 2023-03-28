@@ -1,5 +1,5 @@
 # Dotnet-Mail-Sender.Api
-Sending e-mails with dotnet core 7.0
+This is a minimal api for sending e-mails with dotnet core 7.0
 <hr />
 
 To use it with Gmail you must follow these steps:    

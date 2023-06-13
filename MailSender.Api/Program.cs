@@ -14,10 +14,7 @@ var smtpSettings = builder.Configuration
     .GetSection("Smtp")
     .Get<SmtpSettings>();
 
-if (smtpSettings is null)
-{
-    throw new ApplicationException("Missing smtp settings");
-}
+ArgumentNullException.ThrowIfNull(smtpSettings);
 
 builder.Services
     .AddEndpointsApiExplorer()

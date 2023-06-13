@@ -24,13 +24,16 @@ builder.Services
     .AddSwaggerGen()
     .AddSingleton(smtpSettings)
     .AddScoped<IValidator<Email>, EmailValidator>()
-    .AddScoped<IMailSender, EmailSender>();
+    .AddScoped<IMailSender, EmailSender>()
+    .AddHealthChecks();
 
 var app = builder.Build();
 
-app.
-    UseHttpsRedirection()
+app
+    .UseHttpsRedirection()
     .ConfigureExceptionMiddleWare();
+
+app.MapHealthChecks("/health");
 
 if (app.Environment.IsDevelopment())
 {

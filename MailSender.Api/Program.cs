@@ -14,7 +14,8 @@ var smtpSettings = builder.Configuration
     .GetSection("Smtp")
     .Get<SmtpSettings>();
 
-ArgumentNullException.ThrowIfNull(smtpSettings);
+ArgumentNullException.ThrowIfNullOrEmpty(smtpSettings.Username);
+ArgumentNullException.ThrowIfNullOrEmpty(smtpSettings.Password);
 
 builder.Services
     .AddEndpointsApiExplorer()

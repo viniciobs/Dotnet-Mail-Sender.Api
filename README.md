@@ -20,7 +20,7 @@ PS C:\> dev-certs https --trust
 
 ```shell
 PS C:\Path\To\MailSender.Api> docker build -t mailsender-dotnet-api -f MailSender.Api/Dockerfile .    
-PS C:\MailSender.Api> docker run --rm -it -p 5001:5001 -e ASPNETCORE_URLS="https://+;http://+" -e ASPNETCORE_HTTPS_PORT=5001 -e ASPNETCORE_Kestrel__Certificates__Default__Password="<YOUR_CERT_PASSWORD>" -e ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx -v $env:USERPROFILE\.aspnet\https:/https/ mailsender-dotnet-api
+PS C:\MailSender.Api> docker run --rm -it -p 5001:443 -e ASPNETCORE_URLS=https://+ -e ASPNETCORE_HTTPS_PORT=5001 -e ASPNETCORE_Kestrel__Certificates__Default__Password="<YOUR_CERT_PASSWORD>" -e ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx -e ASPNETCORE_ENVIRONMENT=Development -v $env:APPDATA\Microsoft\UserSecrets:\root\.microsoft\usersecrets:ro -v $env:USERPROFILE\.aspnet\https:/https/ mailsender-dotnet-api
 ```
 
 _ps._ Replace `<YOUR_CERT_PASSWORD>` with a real password.

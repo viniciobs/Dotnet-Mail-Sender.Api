@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  mailsender:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: "mail-sender.api"
+    ports:
+      - "5758:443"
+    environment:
+      ASPNETCORE_URLS: https://+
+      ASPNETCORE_HTTPS_PORT: 5758
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
+      ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERTPASSCODE}
+    env_file:
+      - .env
+    volumes:
+      - ${APPDATA}\Microsoft\UserSecrets:\root\.microsoft\usersecrets:ro
+      - ${USERPROFILE}\.aspnet\https:/https/

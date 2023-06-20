@@ -3,9 +3,9 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["MailSender.Api/MailSender.Api.csproj", "MailSender.Api/"]
+COPY ["MailSender.Api/MailSender.Api.csproj", "MailSender.Api/MailSender.Api.csproj"]
 RUN dotnet restore "MailSender.Api/MailSender.Api.csproj"
-COPY . .
+COPY ["MailSender.Api/.", "MailSender.Api/"]
 WORKDIR "/src/MailSender.Api"
 RUN dotnet build "MailSender.Api.csproj" -c Release -o /app/build
 

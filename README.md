@@ -15,8 +15,11 @@ PS C:\> dotnet dev-certs https -ep %USERPROFILE%\.aspnet\https\aspnetapp.pfx -p 
 PS C:\> dev-certs https --trust
 ```   
 
-2. Edit the _.env_ file with the <span style="color:orange"><CERT_PASSWORD></span> you put on step before
+2. Edit the _.env_ file with the <span style="color:yellow"><CERT_PASSWORD></span> you put on step before
+
 3. On the root folder, run: 
 ```shell 
 PS C:\MailSender.Api> docker compose up
 ```
+
+4. The application is now running. Go to [https://localhost:5758/swagger/index.html](https://localhost:5758/swagger/index.html)

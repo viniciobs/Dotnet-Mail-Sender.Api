@@ -9,7 +9,8 @@ To use it with Gmail you must follow these steps:
 3. Edit appsettings.json replacing `username` with your e-mail and `password` with your new generated app password.
 
 ## Running on Docker
-1. In order to run the application on docker you need to have a dev certificate, if you don't have one, create as follows:
+1. In order to run the application on docker you need to have a dev certificate, if you don't have one, create as follows.    
+Open **CMD** and run:
 ```shell
 PS C:\> dotnet dev-certs https -ep %USERPROFILE%\.aspnet\https\aspnetapp.pfx -p <CERT_PASSWORD>
 PS C:\> dev-certs https --trust
